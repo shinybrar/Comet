@@ -5,10 +5,10 @@ LABEL maintainer="Shiny Brar"
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM linux
 
-# Add local directory as /frb-master
+# Add local directory
 ADD . /Comet
 
-# Change directory to /frb-master
+# Change directory
 WORKDIR /Comet
 
 
