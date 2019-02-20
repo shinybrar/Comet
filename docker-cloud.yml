@@ -1,0 +1,33 @@
+version: '3.4'
+
+services:
+  app:
+    image: chimefrb/comet:latest
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role != manager
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 25
+        window: 30s
+    ports:
+      - "8098:8098"
+    networks:
+      overlay_network:
+        aliases:
+          - frb-comet
+    healthcheck:
+        test: ["CMD-SHELL", "curl -f http://localhost:8098 || exit 1"]
+        interval: 30s
+        timeout: 15s
+        start_period: 30s
+        retries: 3
+
+# Mount overlay external swarm-network
+networks:
+  overlay_network:
+    external:
+      name: swarm-attachable-network
